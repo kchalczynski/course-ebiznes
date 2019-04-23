@@ -14,32 +14,35 @@ GET     /message                    controllers.AsyncController.message
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 
-GET /login controllers.LoginController.loginView
+GET /login                          controllers.LoginController.loginView
 
-POST /login controllers.LoginController.loginAction
+POST /login                         controllers.LoginController.loginAction
 
-GET /register controllers.RegistrationController.registerView
+GET /register                       controllers.RegistrationController.registerView
 
-POST /register controllers.RegistrationController.registerAction
+POST /register                      controllers.RegistrationController.registerAction
 
-GET /products/all controllers.ProductController.allProducts
-GET /products/:id controllers.ProductController
-GET /products/:id/edit controllers.ProductController
-POST /products controllers.ProductController
+GET /products/all                   controllers.ProductController.getAllProducts
+GET /products/:id                   controllers.ProductController.getProductById(id: Integer)
+GET /products/:id/edit              controllers.ProductController.getProductDetails(id: Integer)
+GET /products/category/:category    controllers.ProductController.getProductsByCategory(category: String)
+POST /products                      controllers.ProductController.addProduct
 #update product
-PUT /products/:id controllers.ProductController
+PUT /products/:id                   controllers.ProductController.updateProduct(id: Integer)
 
-GET /users/all controllers.UserController
-GET /users/:id controllers.UserController
-GET /users/:id/orders controllers.UserController
-GET /users/:id/edit controllers.UserController
-PUT /users/:id controllers.UserController
+GET /users/all                      controllers.UserController.getAllUsers
+GET /users/:id                      controllers.UserController.getUserById(id: Integer)
+GET /users/:id/orders               controllers.UserController.getUserOrders(id: Integer)
+GET /users/:id/edit                 controllers.UserController.getUserDetails(id: Integer)
+POST /users                         controllers.UserController.createUser
+PUT /users/:id                      controllers.UserController.updateUser(id: Integer)
 
-GET /orders/all controllers.OrderController
-GET /orders/:id controllers.OrderController
-GET /orders/user/:userId controllers.OrderController
-GET /orders/new controllers.OrderController
+GET /orders/all                     controllers.OrderController.getAllOrders
+GET /orders/:id                     controllers.OrderController.getOrderById(id: Integer)
+GET /orders/user/:userId            controllers.OrderController.getOrdersByUserId(userId: Integer)
+GET /orders/new                     controllers.OrderController.orderProduct
 
-GET /contact controllers.InformationController
-GET /cart controllers.CartController
-PUT /cart controllers.CartController
+#GET /contact                        controllers.InformationController.
+
+GET /cart                           controllers.CartController.getCart
+PUT /cart                           controllers.CartController.updateCart
