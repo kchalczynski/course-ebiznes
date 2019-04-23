@@ -1,0 +1,60 @@
+git/github
+
+docker/dockerhub (do przechowywania obrazów dockerowych)
+
+hub.docker.com/u/kprzystalski - jakies obrazy przystalskiego, można spr jak to wygląda
+    obraz dockerowy (docker image) - konfiguracja jakiegoś środowska, na podstawie której tworzy się kontenery (instancje danego środowiska)
+    różne obrazy - róne środowiska, do różnych zastosowań (np. jeden ruby, jeden python)
+    jak wygląda obraz? definicja w pliku (zwykle nazwanym) Dockerfile, jakieś apt-gety, pip'y do instalowania paczek do pythona
+    ? problem - kilka serwisów na tym samym porcie - można zmapować porty z kontenerów na inne porty na hoście (przy startowaniu kontenera -p host:kontener (tzn porty obu))
+
+    dlaczego to będzie istotne? zadania będą na konkretnych wersjach Scali i Playa
+        EXPOSE - porty które możemy zmapować
+        WORKDIR - późniejesze komendy będą wywoływane pod tym katalogiem (określonym przez WORKDIR)
+
+    przy pushowaniu obrazu trzeba nadać mu tag, w celu wersjonowania
+    docker ps - lista odpalonych kontenerów, z -a są wszystkie które były odpalone
+
+
+Kubernetes
+Docker compose - może odpalić kilka dockerfilów naraz, ułatwia ustawienie kilku mikroserwisów
+	docker compose up - odpala yamla konfiguracyjnego
+		volume - katalogi które podpinamy z naszego hosta do kontenerów
+		w build podawana ścieżka do Dockerfile który będzie budowany
+		deployment.yaml - plik z ustawieniem poda (?) kubernetesowego
+		
+Kubernetes służy do zarządzania kontenerami (node'ami) - zarówno lokalnie jak i w chmurze (Google Cloud, AWS)
+Jest popularne bo jest od Googla (xD) i łatwiej tym zarządzać niż innymi rozwiązaniami podobnego zastosowania (Docker Swarm)
+Pody - to są kontenery wg nomenklatury kubernetesej
+Nody - Pody są organizowane w nody
+kontenery
+obrazy
+repliki
+serwisy - to co udostępniamy na zwenątrz (jakieś serwisy/usługi udostępniane na danym porcie)
+
+minikube - do działania lokalnie, zarządania podami, nodami, replikami
+kubectl - można zarządzać tymi wszystkimi strukturami w chmurze czy gdziekolwiek
+	get pods - wyswietla pody
+	
+nody mają typy, 3 w sumie, claster ip, node udostępniony na zewnątrz (serwis), load balancer
+
+Inna alternatywa - mesos, chociaż bardziej służy do high availability, usługi rozdzielone na różnych dostawców cloudowych, jednocześnie google, ms i amazon
+TPU vs GPU
+
+zeby zbudować sobie kubernetesy
+
+kubectl apply -f ./deployment.yaml
+to jest potrzebne do samego kubernetesa
+expose deployement (słowo klucz) nazwaDeploymenta typ (istotne zeby podac typ)
+takie udostepnienie deploymentu na zwenatrz
+minikube service tomcat-deployment (<- nazwa deploymentu) --url <- zwraca adres tego udostępnionego deploymentu
+kubectl describe pod tomcat-deployment-... (<- cala nazwa, z hashem, z listy podow) <-- podaje cały opis/konfigurację poda
+
+terraform (zarządzanie infrastrukturą) + ansible (automatyzacja zarządzania konfiguracją, deploymentem etc.) - możliwość stworzenia i zarządzania całą infrastrukturą na AWSie 
+blue/green deployement (!) - wyłączanie części nodów, aktualizacja, podpięcie i w ten sposób aktualizacja całej infrastruktury (load balancer tu jest mocno używany, żeby uniknąć downtime)
+
+k8n - rollout - rollback
+rollout history - historia rewizji, można spr. która co konkretnie zmieniała
+
+do każdego z nodów można dostać się przez 'exec -it ...', jak w dokerze można się dostać do basha
+z punktu widzenia devopsa możliwość zarządzania zmianami jest istotna

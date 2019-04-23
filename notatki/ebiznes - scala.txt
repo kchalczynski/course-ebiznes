@@ -1,0 +1,137 @@
+ebiznes2
+scala - jednoczesnie kompilowana (do bytecodu) i skryptowa, mozna odpalic bez kompilacji, obiektowy i nieobiektowy
+dlaczego kotlin - kwestia polityki, uwolnienie od oracle
+a dlaczego programisci wybierali kotlina? bo oferowal featury z javy >= 7, zanim api javy to oferowaly
+
+a dlaczego scala? np bigdata -> spark
+					akka -> system aktorow etc.
+
+scala sbt - narzędzie do budowania projektów w scali
+	(kolejne zadanie - zbudowanie szkieletu (template) projektu w dockerze z uzyciem sbt)
+
+var - zmienna
+val - wartość - stała
+
+co jest pod var
+
+var sample :Int = _ <-- 0
+jezeli String - null
+jezeli double - 0.0
+
+jest to wartosc domyslna dla danego typu
+definicja ojbectu ze zmiennymi, 
+petla jak w rubym
+tuple, range jak w pythonie
+tuple - index od jedynki
+
+konstruktor domyslny - do pierwszej metody
+jak najprosciej napisac singleton w scali - Object
+
+konstruktor wewnetrzny - this
+dziedziczenie: extends, do tego na metodach override
+
+traits - co to są traity? worek z metodami które chcemy dołączyć
+'dziedziczenie' po traitach - with NazwaTraita, mozna dziedziczyć po wielu traitach
+
+listy indeksowane od 0, w przeciwienstwie do tupli
+Nil - pusta lista !!!
+tuple - przy porwnywaniu kolejnosc nieistotna, w liscie istotna, wiec porownanie dwoch list z rozna kolejnoscia takich samych elementow -- false
+
+sortowanie listy:
+lista.sortWith(_<_) < - sortuje alfabetycznie, pod _ wrzuca kolejno elemnty iterujac
+
+co oznacza  " /: " " fold left czy tam right
+coursera - Odersky
+
+do dodawania kerneli ze scala do jupitera "BeakerX"
+
+set - zbiór, elementy niepowtarzalne, kolejność nie ma znaczenia
+
+mapy -
+_1 - wyswietla klucz
+_2 - wyswietla wartosc
+
+lazy - (singleton) obiekt jest tworzony kiedy jest pierwszy raz wykorzystywany
+	generalnie lazy - tworzone/inicjalizowane dopiero kiedy jest potrzebne
+
+try catch w sumie jak w javie 
+	case _: <-- defalt
+	
+ArrayBuffer mutable array
+do operacji na plikach Source (Source.fromFile)
+
+Case classes - klasa bez metod
+nawiasem mowiac, Deep Learning, Iann Goodfellow - ponoc swietna ksiazka
+
+companion objects
+funkcyjne podejście, apply, unapply, update
+obiekt tworzony bez new z użyciem apply(), potem można wywoływać metody klasy
+
+funkcje jako zmienne 	val √ = scala.math.sqrt _
+
+nil - pusta lista
+null - javowy
+none - scalowy null
+
+Option, Some (coś musi być)
+
+Future - będzie i musi być
+w projekcie to będzie zmora, bo w przypadku kodu asynchronicznego future się wykorzystuje (zrozumialem ze zagniezdzone)
+
+funkcje anonimowe - bez nazwy, trzymana pod zmienną
+implicit - wprost podawanie definicji funkcji
+implicit def costam = ...
+
+proste parsowanie XMLa - przykład też jak robić for each po XMLu
+wyrażenia regularne - trochę jak w pythonie
+tuple
+
+Współbieżność - aktorzy - Akka - coś ala wątki komunikujące się z sobą wysyłając i odbierając komunikaty
+
+scala - wzorce projektowe
+
+wzorce - behawioralne, strukturalne, kreacyjne
+kreacyjne :
+singleton - tylko jedna instancja obiektu, np połączenie z bazą danych, autentykacja
+lazy init -
+builder - na podstawie przekazanych wartości tworzy odpowiedni obiekt (typ)
+factory method - 
+abstract factory - podobne jak wyżej, tylko klasy abstrakcyjne
+
+behawioralne:
+chain (of responsibility) - np. bankomat, w aplikacjach webowych w routingu
+command - wykonywanie odpowiedniej komendy po zebraniu kilku rzeczy
+mediator - odpowiednik wieży kontroli lotów, komunikacja między wieloma obiektami/wątkami
+state (stan) - stan można zmienić, 
+
+
+  
+  na za dwa tyg 16.02
+  
+  schemat bazy danych dla sklepu (projekt zaliczeniowy) - sql, nosql - jak tam ie chce
+  w formie dumpa
+  
+  
+ wzorce strukturalne - 3 główne, celem łatwiejszy dostęp do elementów:
+ adapter - przykład loggera, wtyczka do prądu, pozwala na przejscie z jednego el. systemu do drugiego4
+	inny przykład z "życia wzięty", język COBOL (bankowość) - coś działa to nie ma sensu tego psuć, przez lata przeszło wszystkie możliwe sytuacje - po prostu działa poprawnie. Adapter pozwala dodać nowe rozwiązania do takiego systemu. Do tego adapter w takim przypadku jest lepszy niż zaoranie i przepisanie w innym języku, bo za kilka(dziesiąt) lat może okazać się że znowu trzeba przepisywać
+ kompozyt - stworzenie pewnej struktury, żeby mieć do niej dostęp z każdego miejsca, np. jakieś drzewo (w Scali głownie z użyciem Traitów)
+ proxy - jezeli nie chcemy byc widoczni z zewnatrz (rozpoznawalni) jako my
+		proxy też służyło jako cache w przypadku dzielenia łącza
+		czyli albo do cachowania albo jako pośrednik (żeby nie było wiadomo kto jest po drugiej stronie)
+
+ wzorce funkcyjne:
+ funktor, monoid, monad
+ monoid - odwzorowanie jednej struktury na drugą (w jakimś secie np)
+ monada - charakterystyczna jest funkcja mapująca, różni od monoidu to że monoid tylko określa operator, a monada ma konkretne mapowanie
+ funktor - uboższa monada, mapuje z jednego typu na drugi
+ 
+ C:\Users\Kamil>jupyter notebook --notebook-dir='C:\Kamil\magisterka\machine-learning'
+ 
+ scala 9.04 - kontrolery, routing do sklepu
+ 
+ curl? po co to mialo byc, nie pamietam
+ 
+ 
+ scala slick evolution play
+ https://sorbus.if.uj.edu.pl/kprzystalski/play-react-slick-foreign/src/master
