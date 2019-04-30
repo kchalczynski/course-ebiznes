@@ -5,10 +5,10 @@ import play.api.mvc._
 
 class LoginController @Inject()(cc: ControllerComponents) extends AbstractController(cc){
   def loginView = Action {
-    Ok(views.html.index("LOGIN view"))
+    Ok(views.html.index("This is login view"))
   }
 
-  def loginAction = {
-
+  def loginAction = Action {
+    Ok(views.html.index("This is login action"))
   }
 }

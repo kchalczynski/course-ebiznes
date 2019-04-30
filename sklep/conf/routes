@@ -18,9 +18,9 @@ GET /login                          controllers.LoginController.loginView
 
 POST /login                         controllers.LoginController.loginAction
 
-GET /register                       controllers.RegistrationController.registerView
+GET /register                       controllers.RegistrationController.registrationView
 
-POST /register                      controllers.RegistrationController.registerAction
+POST /register                      controllers.RegistrationController.registrationAction
 
 GET /products/all                   controllers.ProductController.getAllProducts
 GET /products/:id                   controllers.ProductController.getProductById(id: Integer)
@@ -34,13 +34,13 @@ GET /users/all                      controllers.UserController.getAllUsers
 GET /users/:id                      controllers.UserController.getUserById(id: Integer)
 GET /users/:id/orders               controllers.UserController.getUserOrders(id: Integer)
 GET /users/:id/edit                 controllers.UserController.getUserDetails(id: Integer)
-POST /users                         controllers.UserController.createUser
+POST /users                         controllers.UserController.addUser
 PUT /users/:id                      controllers.UserController.updateUser(id: Integer)
 
 GET /orders/all                     controllers.OrderController.getAllOrders
 GET /orders/:id                     controllers.OrderController.getOrderById(id: Integer)
 GET /orders/user/:userId            controllers.OrderController.getOrdersByUserId(userId: Integer)
-GET /orders/new                     controllers.OrderController.orderProduct
+POST /orders/new                     controllers.OrderController.orderProduct
 
 #GET /contact                        controllers.InformationController.
 

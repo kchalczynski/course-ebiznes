@@ -1,6 +1,6 @@
 package models
 
-import javax.inject.Inject
+import javax.inject.{ Inject, Singleton }
 import play.api.db.slick.DatabaseConfigProvider
 import slick.jdbc.JdbcProfile
 
@@ -15,7 +15,7 @@ import scala.concurrent.ExecutionContext
 @Singleton
 class ProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext) {
   // We want the JdbcProfile for this provider
-  private val dbConfig = dbConfigProvider.get[JdbcProfile]
+ /* private val dbConfig = dbConfigProvider.get[JdbcProfile]
 
   // These imports are important, the first one brings db into scope, which will let you do the actual db operations.
   // The second one brings the Slick DSL into scope, which lets you define the table and other queries.
@@ -56,5 +56,5 @@ class ProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(impl
       */
     def * = (product_id, name, category_id, price, short_desc, details,
       available, available_quantity) <> ((Product.apply _).tupled, Product.unapply)
-  }
+  }*/
 }
