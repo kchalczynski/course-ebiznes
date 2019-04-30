@@ -1,10 +1,10 @@
 package models
 
-import javax.inject.{ Inject, Singleton }
+import javax.inject.{Inject, Singleton}
 import play.api.db.slick.DatabaseConfigProvider
 import slick.jdbc.JdbcProfile
-
-import scala.concurrent.ExecutionContext
+import models.CategoryRepository
+import scala.concurrent.{ExecutionContext, Future}
 
 
 /**
@@ -13,9 +13,9 @@ import scala.concurrent.ExecutionContext
   * @param dbConfigProvider The Play db config provider. Play will inject this for you.
   */
 @Singleton
-class ProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext) {
+class ProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, categoryRepository: CategoryRepository)(implicit ec: ExecutionContext) {
   // We want the JdbcProfile for this provider
- /* private val dbConfig = dbConfigProvider.get[JdbcProfile]
+  private val dbConfig = dbConfigProvider.get[JdbcProfile]
 
   // These imports are important, the first one brings db into scope, which will let you do the actual db operations.
   // The second one brings the Slick DSL into scope, which lets you define the table and other queries.
@@ -46,6 +46,9 @@ class ProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(impl
 
     def available_quantity = column[Int]("available_quantity")
 
+    def category_fk = foreignKey("product_fkey", category_id, category)(_.category_id)
+
+
     /**
       * This is the tables default "projection".
       *
@@ -56,5 +59,30 @@ class ProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(impl
       */
     def * = (product_id, name, category_id, price, short_desc, details,
       available, available_quantity) <> ((Product.apply _).tupled, Product.unapply)
-  }*/
+  }
+
+  import categoryRepository.CategoryTable
+
+  private val product = TableQuery[ProductTable]
+
+  private val category = TableQuery[CategoryTable]
+
+  def create(name: String, category_id: Long, price: Float, short_desc: String, details: String,
+             available: Boolean, available_quantity: Int): Future[Product] = db.run {
+
+    (product.map(p => (p.name, p.category_id, p.price, p.short_desc, p.details, p.available, p.available_quantity))
+
+      returning product.map(_.product_id)
+
+      into { case ((name, category_id, price, short_desc, details, available, available_quantity), product_id) =>
+        Product(product_id, name, category_id, price, short_desc, details, available, available_quantity)
+      };
+
+    ) += (name, category_id, price, short_desc, details, available, available_quantity)
+  }
+
+
+  def list (): Future[Seq[Product]] = db.run {
+    product.result
+  }
 }
