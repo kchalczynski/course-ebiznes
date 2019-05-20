@@ -1,0 +1,17 @@
+react vs react native - prawie jak java vs javascript
+react native - aplikacje mobilne, ktore wygladaja jak natywne, ale sa wolne, jak JSowe
+
+vue - trochę pomiędzy reactem a angularem
+problem z nodem - szybki bo asynchroniczny, ale np php w benchmarku tylko asynchronicznie okazal sie szybszy
+
+root < -- tam jest wstrzykiwana aplikacja
+
+cors - pozwala zabezpieczyc aplikacje przed dobijaniem sie z niepowolanych adresow
+
+uruchamianie npm run start
+
+zadanie na za dwa tyg (tzn 28.05)
+CRUD po stronie reacta i odpowiednio kontrolery po stronie backendu
+na razie dodawanie oraz lista, bez update/delete
+
+w corsach - dodac filtr (plik) i konfiguracja
