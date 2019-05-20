@@ -14,16 +14,18 @@ class OrderRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, userRe
 
   class OrderTable(tag: Tag) extends Table[Order](tag, "order") {
 
-    def pd_id = column[Long]("pd_id", O.PrimaryKey, O.AutoInc)
+    def order_id = column[Long]("pd_id", O.PrimaryKey, O.AutoInc)
 
-    def product_id = column[Long]("product_id")
+    def user_id = column[Long]("user_id")
 
-    def full_desc = column[String]("full_description")
+    def status = column[String]("status")
 
-    def category_fk = foreignKey("product_details_fkey", product_id, product)(_.product_id)
+    def price_total = column[Float]("total_price")
+
+    def user_fk = foreignKey("order_fkey", user_id, user)(_.user_id)
 
 
-    def * = (pd_id, product_id, full_desc) <> ((Order.apply _).tupled, ProductDetails.unapply)
+    def * = (order_id, user_id, status, price_total) <> ((Order.apply _).tupled, Order.unapply)
   }
 
 
@@ -32,11 +34,11 @@ class OrderRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, userRe
   private val order = TableQuery[OrderTable]
   private val user = TableQuery[UserTable]
 
-  def create(product_id: Long, full_desc: String): Future[Order] = db.run {
-    (order.map(o => (pd.product_id, pd.full_desc))
-      returning order.map(_.pd_id)
-      into { case ((product_id, full_desc), pd_id) => Order(pd_id, product_id, full_desc) }
-      ) += (product_id, full_desc)
+  def create(user_id: Long, status: String, price_total: Float): Future[Order] = db.run {
+    (order.map(o => (o.user_id, o.status, o.price_total))
+      returning order.map(_.order_id)
+      into { case ((user_id, status, price_total), order_id) => Order(order_id, user_id, status, price_total) }
+      ) += (user_id, status, price_total)
   }
 
   def list(): Future[Seq[Order]] = db.run {

@@ -23,7 +23,6 @@ class ProductDetailsRepository @Inject()(dbConfigProvider: DatabaseConfigProvide
 
     def category_fk = foreignKey("product_details_fkey", product_id, product)(_.product_id)
 
-
     def * = (pd_id, product_id, full_desc) <> ((ProductDetails.apply _).tupled, ProductDetails.unapply)
   }
 

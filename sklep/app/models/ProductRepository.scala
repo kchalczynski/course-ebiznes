@@ -69,14 +69,12 @@ class ProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, cate
 
   def create(name: String, category_id: Long, price: Float, short_desc: String, details: String,
              available: Boolean, available_quantity: Int): Future[Product] = db.run {
-
     (product.map(p => (p.name, p.category_id, p.price, p.short_desc, p.details, p.available, p.available_quantity))
-
       returning product.map(_.product_id)
 
       into { case ((name, category_id, price, short_desc, details, available, available_quantity), product_id) =>
         Product(product_id, name, category_id, price, short_desc, details, available, available_quantity)
-      };
+      }
 
     ) += (name, category_id, price, short_desc, details, available, available_quantity)
   }
