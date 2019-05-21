@@ -25,7 +25,7 @@ class ProductController @Inject()(cc: ControllerComponents) extends AbstractCont
     Ok(views.html.index("This is addProduct action"))
   }
 
-  def updateProduct = Action {
+  def updateProduct(id: Integer) = Action {
     Ok(views.html.index("This is updateProduct action"))
   }
 }

@@ -26,7 +26,7 @@ class UserController @Inject()(cc: ControllerComponents) extends AbstractControl
     Ok(views.html.index("This is addUser action"))
   }
 
-  def updateUser = Action {
+  def updateUser(id: Integer) = Action {
     Ok(views.html.index("This is updateUser action"))
   }
 }

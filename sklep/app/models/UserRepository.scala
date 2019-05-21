@@ -10,7 +10,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class UserRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext) {
-  private val dbConfig = dbConfigProvider.get[JdbcProfile]
+  val dbConfig = dbConfigProvider.get[JdbcProfile]
 
   import dbConfig._
   import profile.api._
@@ -40,7 +40,7 @@ class UserRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(implici
       created_date, modified_date, payment_info) <> ((User.apply _).tupled, User.unapply)
   }
 
-  private val user = TableQuery[UserTable]
+  val user = TableQuery[UserTable]
 
   def create(email_address: String, display_name:String, password: String,
              first_name: String, last_name: String, address_1: String, address_2: String,
@@ -48,17 +48,18 @@ class UserRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(implici
              modified_date: Timestamp, payment_info: String): Future[User] = db.run {
 
     (user.map(u => (u.email_address, u.display_name, u.password, u.first_name,
-      u.last_name, u.address_1, u.address_2, u.phone_number, u.verified, u.password_reset,
-      u.created_date, u.modified_date, u.payment_info))
+                    u.last_name, u.address_1, u.address_2, u.phone_number, u.verified, u.password_reset,
+                    u.created_date, u.modified_date, u.payment_info))
       returning user.map(_.user_id)
       into { case ((email_address, display_name, password, first_name,
-        last_name, address_1, address_2, phone_number, verified, password_reset,
-        created_date, modified_date, payment_info), user_id) => User(user_id, email_address, display_name, password, first_name,
-      last_name, address_1, address_2, phone_number, verified, password_reset,
-      created_date, modified_date, payment_info) }
+                    last_name, address_1, address_2, phone_number, verified, password_reset,
+                    created_date, modified_date, payment_info), user_id)
+            => User(user_id, email_address, display_name, password, first_name,
+                    last_name, address_1, address_2, phone_number, verified, password_reset,
+                    created_date, modified_date, payment_info) }
       ) += (email_address, display_name, password, first_name,
-      last_name, address_1, address_2, phone_number, verified, password_reset,
-      created_date, modified_date, payment_info)
+            last_name, address_1, address_2, phone_number, verified, password_reset,
+            created_date, modified_date, payment_info)
   }
 
   def list(): Future[Seq[User]] = db.run {

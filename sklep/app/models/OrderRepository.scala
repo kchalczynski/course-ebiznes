@@ -1,16 +1,19 @@
 package models
 
-import javax.inject.Inject
+import javax.inject.{Inject, Singleton}
 import play.api.db.slick.DatabaseConfigProvider
 import slick.jdbc.JdbcProfile
-import models.UserRepository
+
 import scala.concurrent.{ExecutionContext, Future}
 
-class OrderRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, userRepository: UserRepository)(implicit ec: ExecutionContext) {
-  private val dbConfig = dbConfigProvider.get[JdbcProfile]
+@Singleton
+class OrderRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val userRepository: UserRepository)(implicit ec: ExecutionContext) {
+  val dbConfig = dbConfigProvider.get[JdbcProfile]
 
   import dbConfig._
   import profile.api._
+
+  import userRepository.UserTable
 
   class OrderTable(tag: Tag) extends Table[Order](tag, "order") {
 
@@ -29,10 +32,9 @@ class OrderRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, userRe
   }
 
 
-  import userRepository.UserTable
 
-  private val order = TableQuery[OrderTable]
-  private val user = TableQuery[UserTable]
+  val order = TableQuery[OrderTable]
+  val user = TableQuery[UserTable]
 
   def create(user_id: Long, status: String, price_total: Float): Future[Order] = db.run {
     (order.map(o => (o.user_id, o.status, o.price_total))

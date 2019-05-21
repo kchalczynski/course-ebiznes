@@ -3,15 +3,17 @@ package models
 import javax.inject.{Inject, Singleton}
 import play.api.db.slick.DatabaseConfigProvider
 import slick.jdbc.JdbcProfile
-import models.ProductRepository
+
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class ProductDetailsRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, productRepository: ProductRepository)(implicit ec: ExecutionContext) {
-  private val dbConfig = dbConfigProvider.get[JdbcProfile]
+class ProductDetailsRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val productRepository: ProductRepository)(implicit ec: ExecutionContext) {
+  val dbConfig = dbConfigProvider.get[JdbcProfile]
 
   import dbConfig._
   import profile.api._
+//
+//  import productRepository.ProductRepository
 
   class ProductDetailsTable(tag: Tag) extends Table[ProductDetails](tag, "product_details") {
 
@@ -29,8 +31,8 @@ class ProductDetailsRepository @Inject()(dbConfigProvider: DatabaseConfigProvide
 
   import productRepository.ProductTable
 
-  private val product_details = TableQuery[ProductDetailsTable]
-  private val product = TableQuery[ProductTable]
+  val product_details = TableQuery[ProductDetailsTable]
+  val product = TableQuery[ProductTable]
 
   def create(product_id: Long, full_desc: String): Future[ProductDetails] = db.run {
     (product_details.map(pd => (pd.product_id, pd.full_desc))

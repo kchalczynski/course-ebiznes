@@ -1,13 +1,14 @@
 package models
 
-import javax.inject.Inject
+import javax.inject.{Inject, Singleton}
 import play.api.db.slick.DatabaseConfigProvider
 import slick.jdbc.JdbcProfile
 
 import scala.concurrent.{ExecutionContext, Future}
 
+@Singleton
 class CategoryRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext) {
-  private val dbConfig = dbConfigProvider.get[JdbcProfile]
+  val dbConfig = dbConfigProvider.get[JdbcProfile]
 
   import dbConfig._
   import profile.api._
@@ -22,9 +23,7 @@ class CategoryRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(imp
     def * = (category_id, category_name) <> ((Category.apply _).tupled, Category.unapply)
   }
 
-
-
-  private val category = TableQuery[Category]
+  val category = TableQuery[CategoryTable]
 
   def create(category_name: String): Future[Category] = db.run {
     (category.map(c => (c.category_name))

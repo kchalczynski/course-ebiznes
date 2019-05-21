@@ -7,5 +7,5 @@ case class OrderItem(order_item_id: Long, order_id: Long, product_id:Long, quant
                  price_total: Float)
 
 object OrderItem {
-  implicit val productFormat = Json.format[OrderItem]
+  implicit val orderItem= Json.format[OrderItem]
 }
