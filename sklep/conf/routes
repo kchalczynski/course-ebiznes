@@ -23,26 +23,31 @@ GET /register                       controllers.RegistrationController.registrat
 POST /register                      controllers.RegistrationController.registrationAction
 
 GET /products/all                   controllers.ProductController.getAllProducts
-GET /products/:id                   controllers.ProductController.getProductById(id: Integer)
-GET /products/:id/edit              controllers.ProductController.getProductDetails(id: Integer)
-GET /products/category/:category    controllers.ProductController.getProductsByCategory(category: String)
+GET /products/:id                   controllers.ProductController.getProductById(id: Long)
+GET /products/:id/edit              controllers.ProductController.getProductDetails(id: Long)
+GET /products/category/:category    controllers.ProductController.getProductsByCategory(category: Long)
 POST /products                      controllers.ProductController.addProduct
 #update product
-PUT /products/:id                   controllers.ProductController.updateProduct(id: Integer)
+PUT /products/:id                   controllers.ProductController.updateProduct(id: Long)
 
 GET /users/all                      controllers.UserController.getAllUsers
-GET /users/:id                      controllers.UserController.getUserById(id: Integer)
-GET /users/:id/orders               controllers.UserController.getUserOrders(id: Integer)
-GET /users/:id/edit                 controllers.UserController.getUserDetails(id: Integer)
+GET /users/:id                      controllers.UserController.getUserById(id: Long)
+GET /users/:id/orders               controllers.UserController.getUserOrders(id: Long)
+GET /users/:id/edit                 controllers.UserController.getUserDetails(id: Long)
 POST /users                         controllers.UserController.addUser
-PUT /users/:id                      controllers.UserController.updateUser(id: Integer)
+PUT /users/:id                      controllers.UserController.updateUser(id: Long)
 
 GET /orders/all                     controllers.OrderController.getAllOrders
-GET /orders/:id                     controllers.OrderController.getOrderById(id: Integer)
-GET /orders/user/:userId            controllers.OrderController.getOrdersByUserId(userId: Integer)
-POST /orders/new                     controllers.OrderController.orderProduct
+GET /orders/:id                     controllers.OrderController.getOrderById(id: Long)
+GET /orders/user/:userId            controllers.OrderController.getOrdersByUserId(userId: Long)
+POST /orders/new                     controllers.OrderController.addOrder
 
 #GET /contact                        controllers.InformationController.
 
 GET /cart                           controllers.CartController.getCart
 PUT /cart                           controllers.CartController.updateCart
+
+GET /categories/all                 controllers.CategoryController.getAllCategories
+GET /categories/:id                 controllers.CategoryController.getCategoryById(id: Long)
+POST /categories                    controllers.CategoryController.addCategory
+PUT /categories/:id                 controllers.CategoryController.updateCategory(id: Long)

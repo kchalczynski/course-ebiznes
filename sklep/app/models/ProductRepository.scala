@@ -14,6 +14,7 @@ import scala.concurrent.{ExecutionContext, Future}
   */
 @Singleton
 class ProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val categoryRepository: CategoryRepository)(implicit ec: ExecutionContext) {
+
   // We want the JdbcProfile for this provider
   val dbConfig = dbConfigProvider.get[JdbcProfile]
 
@@ -84,5 +85,12 @@ class ProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
 
   def list (): Future[Seq[Product]] = db.run {
     product.result
+  }
+  def getById(id: Long): Future[Seq[Product]] = db.run {
+    product.filter(_.product_id == id).result
+  }
+
+  def getByCategory(category_id: Long): Future[Seq[Product]] = db.run {
+    product.filter(_.category_id == category_id).result
   }
 }

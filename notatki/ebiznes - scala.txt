@@ -4,7 +4,7 @@ dlaczego kotlin - kwestia polityki, uwolnienie od oracle
 a dlaczego programisci wybierali kotlina? bo oferowal featury z javy >= 7, zanim api javy to oferowaly
 
 a dlaczego scala? np bigdata -> spark
-					akka -> system aktorow etc.
+					akka -> system aktorow etc. (ale nie tylko, wiele innych bibliotek ma w sobie)
 
 scala sbt - narzędzie do budowania projektów w scali
 	(kolejne zadanie - zbudowanie szkieletu (template) projektu w dockerze z uzyciem sbt)
@@ -135,3 +135,5 @@ state (stan) - stan można zmienić,
  
  scala slick evolution play
  https://sorbus.if.uj.edu.pl/kprzystalski/play-react-slick-foreign/src/master
+ 
+ weresja neutrino na >= 9

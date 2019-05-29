@@ -8,6 +8,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class CategoryRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext) {
+
   val dbConfig = dbConfigProvider.get[JdbcProfile]
 
   import dbConfig._
@@ -27,13 +28,17 @@ class CategoryRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(imp
 
   def create(category_name: String): Future[Category] = db.run {
     (category.map(c => (c.category_name))
-      returning category.map(_.category_id)
-      into { case ((category_name), category_id) => Category(category_id, category_name) }
-      ) += (category_name)
+    returning category.map(_.category_id)
+    into { case ((category_name), category_id) => Category(category_id, category_name) }
+    ) += (category_name)
   }
 
   def list(): Future[Seq[Category]] = db.run {
     category.result
+  }
+
+  def getCategoryById(id: Integer): Future[Seq[Category]] = db.run {
+    category.filter(_.category_id == id).result
   }
 
 }

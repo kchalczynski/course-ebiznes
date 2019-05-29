@@ -8,6 +8,8 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class OrderRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val userRepository: UserRepository)(implicit ec: ExecutionContext) {
+
+
   val dbConfig = dbConfigProvider.get[JdbcProfile]
 
   import dbConfig._
@@ -45,5 +47,13 @@ class OrderRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val us
 
   def list(): Future[Seq[Order]] = db.run {
     order.result
+  }
+
+  def getById(id: Long): Future[Seq[Order]] = db.run {
+    order.filter(_.order_id === id).result
+  }
+
+  def getByUserId(user_id: Long): Future[Seq[Order]] = db.run {
+    order.filter(_.user_id == user_id).result
   }
 }
